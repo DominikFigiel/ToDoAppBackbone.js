@@ -1,0 +1,33 @@
+﻿@model DominikToDo.Models.Task
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<form action="/Task/Index" method="post" novalidate="novalidate">
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-12">
+        <div class="form">
+            <div class="form-group col-md-4">
+                @Html.EditorFor(model => model.Date, new
+                {
+                    htmlAttributes = new
+                    {
+                        @id = "date",
+                        @class = "form-control",
+                        @name = "date",
+                        @type = "date",
+                        @Value = @DateTime.Now.ToString("yyyy-MM-dd"),
+
+                    }
+                })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-3">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
