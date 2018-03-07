@@ -43,9 +43,9 @@ namespace DominikToDo.Controllers
             {
                 // TODO: Add insert logic here
                 var task = model.ToModel();
-                tasksService.Add(task);
+                var newTask = tasksService.Add(task);
 
-                return Json("true", JsonRequestBehavior.AllowGet);
+                return Json(newTask, JsonRequestBehavior.AllowGet);
             }
             catch
             {

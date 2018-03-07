@@ -22,9 +22,10 @@ namespace DominikToDo.DataAccess
             this.session = session;
         }
 
-        public void SaveOrUpdate(Task task)
+        public Task SaveOrUpdate(Task task)
         {
             _session.SaveOrUpdate(task);
+            return task;
 
         }
 

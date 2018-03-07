@@ -23,9 +23,22 @@
             var opts = _.extend({ url: '/Tasks/delete/' + this.id }, options || {});
             return Backbone.Model.prototype.destroy.call(this, opts);
         },
-        save:  function (attributes,  options)  {
-            options = _.defaults((options || {}), { url:  "/Tasks/create/" });
-            return  Backbone.Model.prototype.save.call(this,  attributes,  options);
+        save: function (attributes, options) {
+            var that = this;
+            
+
+            $.ajax({
+                url: '/Tasks/Create',
+                type: 'POST',
+                data: {
+                    Content: this.get('Content'),
+                    Date: this.get('Date'),
+                    IsDone: false
+                },
+                success: function (data) {
+                    
+                }
+            }); 
           }
     });
 
@@ -85,8 +98,9 @@
         AddNewTask: function () {
             console.log('Add Task....');
             this.counter++;
-            var newTask = new Task({ Id: this.counter, Content: 'Unknown ' + this.counter, Date: '1522101600000' + this.counter, IsDone: false});
+            var newTask = new Task({ Id: 2354, Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
             this.collection.add(newTask);
+            newTask.save();
         },
         AppendTask: function (task) {
             var taskView = new TaskView({ model: task });
@@ -109,4 +123,17 @@
 
         }
     });
+});
+
+var Modal = Backbone.Modal.extend({
+    template: _.template($('#modal-template').html()),
+    cancelEl: '.bbm-button'
+});
+$(document).ready(function () {
+    $('#open-it').click(function (ev) {
+        var modalView = new Modal();
+        $('#modal-container').html(modalView.render().el);
+        return false;
+    });
+
 });
