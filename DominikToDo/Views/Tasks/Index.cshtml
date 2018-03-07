@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DominikToDo.Models.Task>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Index</h2>
+
+<div class="styler">
+    <fieldset class="ui-widget">
+        <legend class="ui-state-legend-default ui-corner-top ui-corner-bottom">
+            Task List -
+            Using Backbone
+        </legend>
+        <div id="Task_Container">
+            <input type="button" value="Create New" class="Add" id="btnCreateNew" />
+            <table id="Task_List">
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Content
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <script id='Task-Template' type='text/template'>
+            <td><%=Id%></td>
+            <td><%=Content%></td>
+            <td><%=Date%></td>
+            <td><input type="button" value="Edit" class="Edit" /> | <input type="button" value="Details" class="Detail" /> | <input type="button" value="Delete" class="Delete" /> </td>
+        </script>
+    </fieldset>
+</div>
+
+
+
