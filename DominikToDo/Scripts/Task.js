@@ -13,7 +13,7 @@
             console.log('Task Constructor Triggered');
         },
         defaults: {
-            Id: 0,
+            Id: null,
             Content: 'Unknown',
             Date: 'Unknown',
             IsDone: false
@@ -23,29 +23,31 @@
             var opts = _.extend({ url: '/Tasks/delete/' + this.id }, options || {});
             return Backbone.Model.prototype.destroy.call(this, opts);
         },
-        save: function (attributes, options) {
-            var that = this;
+        save: function () {
+            var model = this;
             
-
             $.ajax({
                 url: '/Tasks/Create',
                 type: 'POST',
-                data: {
-                    Content: this.get('Content'),
-                    Date: this.get('Date'),
-                    IsDone: false
-                },
+                data: model.toJSON(),
                 success: function (data) {
-                    
+                    model.set('Id', data.Id);
                 }
-            }); 
-          }
+            });
+        }
     });
 
     // Task Collection
     var TaskCollection = Backbone.Collection.extend({
         model: Task,
-        url: '/Tasks/GetAll/'
+        url: '/Tasks/GetAll/',
+        initialize: function () {
+            this.bind("reset", function (model, options) {
+                console.log("Inside event");
+                console.log(model);
+
+            })
+        }
     });
 
     // Task View - el returns the template enclosed within a tr
@@ -98,7 +100,7 @@
         AddNewTask: function () {
             console.log('Add Task....');
             this.counter++;
-            var newTask = new Task({ Id: 2354, Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
+            var newTask = new Task({ Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
             this.collection.add(newTask);
             newTask.save();
         },
@@ -115,25 +117,19 @@
     });
 
     var tasks = new TaskCollection();
-    var view = new AppView({ collection: tasks });
 
     tasks.fetch({
-        success: function () {
-            //view.render();
-
+        success: function (response, xhr) {
+            console.log("Inside success");
+            console.log(response);
+        },
+        error: function (errorResponse) {
+            console.log(errorResponse)
         }
     });
+
+
+    var view = new AppView({ collection: tasks });
+    
 });
 
-var Modal = Backbone.Modal.extend({
-    template: _.template($('#modal-template').html()),
-    cancelEl: '.bbm-button'
-});
-$(document).ready(function () {
-    $('#open-it').click(function (ev) {
-        var modalView = new Modal();
-        $('#modal-container').html(modalView.render().el);
-        return false;
-    });
-
-});
