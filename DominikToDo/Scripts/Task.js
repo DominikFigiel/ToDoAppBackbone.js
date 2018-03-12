@@ -70,17 +70,36 @@
             return this;
         },
         events: {
-            "click .Edit": 'EditTask',
+            "click .TaskEdit": 'EditTask',
             "click .Delete": 'DeleteTask'
         },
         EditTask: function () {
-            this.model.set({ Date: 'Unknown' });
-            var self = this;
-            this.model.save(this.model, {
-                success: function () {
-                    $("input:button", $(self.el)).button();
-                }
-            });
+            var model = this;
+            var data = this.model.toJSON();
+            console.log(moment(data.Date).toDate());
+
+            var now = moment(data.Date).toDate();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = (now.getFullYear() + '-' + month + '-' + day);
+
+            $(".modal-body #editTaskIdInput").val(data.Id);
+            $(".modal-body #editTaskContentInput").val(data.Content);
+            $(".modal-body #editTaskDateInput").val(today);
+
+            var id = data.Id;
+            if (data.IsDone == true) {
+                $('#editTaskIsDoneInput')[0].checked = true;
+                $('#task-' + id + '-checkbox')[0].checked = true;
+            }
+
+            else
+            {
+                $('#editTaskIsDoneInput')[0].checked = false;
+                $('#task-' + id + '-checkbox')[0].checked = false;
+            }
+               
         },
         DeleteTask: function () {
             this.model.destroy();
@@ -95,7 +114,8 @@
         el: '#Task_Container',
         counter: 20  ,
         events: {
-            "click #btnCreateNew": "AddNewTask"
+            "click #btnCreateNew": "AddNewTask",
+            "click #SaveChanges": "EditExistingTask"
         },
         AddNewTask: function () {
             console.log('Add Task....');
@@ -103,6 +123,25 @@
             var newTask = new Task({ Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
             this.collection.add(newTask);
             newTask.save();
+        },
+        EditExistingTask: function () {
+            var model = this.collection.get($('#editTaskIdInput').val());
+            model.set('Content', $('#editTaskContentInput').val() );
+            model.set('Date', $('#editTaskDateInput').val());
+            if ($('#editTaskIsDoneInput')[0].checked == true)
+                model.set('IsDone', true);
+            else
+                model.set('IsDone', false);
+
+            $.ajax({
+                url: '/Tasks/Edit/' + model.toJSON().Id,
+                type: 'POST',
+                data: model.toJSON(),
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+
         },
         AppendTask: function (task) {
             var taskView = new TaskView({ model: task });

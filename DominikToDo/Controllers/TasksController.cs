@@ -53,6 +53,32 @@ namespace DominikToDo.Controllers
             }
         }
 
+        // POST: Tasks/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                var task = tasksService.Get(id);
+
+                task.Content = collection["Content"];
+                task.Date = Convert.ToDateTime(collection["Date"]);
+                if (collection["IsDone"].Equals("false"))
+                    task.IsDone = false;
+                else
+                    task.IsDone = true;
+
+                var newTask = tasksService.Add(task);
+
+                return Json(newTask, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json("false", JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         public ActionResult Delete(int? id)
         {

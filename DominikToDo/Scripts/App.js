@@ -8,8 +8,10 @@
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
             var today = (now.getFullYear() + '-' + month + '-' + day);
-            //alert(today);
+
             $('#newTaskDateInput').val(today);
+
+            $('#newTaskContentInput').val("");
 
         });
     });

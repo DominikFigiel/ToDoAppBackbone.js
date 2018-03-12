@@ -245,11 +245,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Tasks\Task\Index.cshtml" />
-    <Content Include="Views\Tasks\Task\Create.cshtml" />
-    <Content Include="Views\Tasks\Task\Edit.cshtml" />
-    <Content Include="Views\Tasks\Task\Search.cshtml" />
-    <Content Include="Views\Tasks\Task\SearchByText.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\Create.cshtml" />
+    <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Task\Search.cshtml" />
+    <Content Include="Views\Task\SearchByText.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
   </ItemGroup>

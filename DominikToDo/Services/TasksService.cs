@@ -46,6 +46,21 @@ namespace DominikToDo.Services
             }
         }
 
+        public void Edit(Task task)
+        {
+            using (var session = _nhSessionDb.ReadAndWrite())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var _taskRepository = new TaskRepository(session);
+                    var existingTask = _taskRepository.Get(task.Id);
+                    _taskRepository.Delete(task);
+                    transaction.Commit();
+                }
+
+            }
+        }
+
         public Task Get(int id)
         {
             using (var session = _nhSessionDb.Read())
@@ -88,6 +103,15 @@ namespace DominikToDo.Services
             {
                 var _taskRepository = new TaskRepository(session);
                 return _taskRepository.GetAllByStatus(text);
+            }
+        }
+
+        public Task GetOneById(int id)
+        {
+            using (var session = _nhSessionDb.Read())
+            {
+                var _taskRepository = new TaskRepository(session);
+                return _taskRepository.Get(id);
             }
         }
 
