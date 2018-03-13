@@ -156,7 +156,7 @@
             var newTask = new Task({ Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
 
             if (!newTask.isValid()) {
-                alert("Pola nie zostały wypełnione prawidłowo.");
+                console.log("Pola nie zostały wypełnione prawidłowo.");
                 return; //Do not save
             } else {
                 this.collection.add(newTask);
@@ -181,7 +181,7 @@
                 newTask.set('IsDone', false);
 
             if (!newTask.isValid()) {
-                alert("Pola nie zostały wypełnione prawidłowo.");
+                console.log("Pola nie zostały wypełnione prawidłowo.");
                 return; //Do not save
             } else {
                 var newTaskJSON = newTask.toJSON();
@@ -200,6 +200,7 @@
                 });
 
                 $(".task-validation-error").empty();
+                $(".task-validation-error").addClass('hidden');
                 $('#taskEditModal').modal('toggle');
 
             }

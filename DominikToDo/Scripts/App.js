@@ -15,6 +15,17 @@
 
         });
 
-    });
+        $("#taskModal").on('hidden.bs.modal', function () {
 
+            $(".task-validation-error").addClass('hidden');
+
+        });
+
+        $("#taskEditModal").on('hidden.bs.modal', function () {
+
+            $(".task-validation-error").addClass('hidden');
+
+        });
+
+    });
 })
