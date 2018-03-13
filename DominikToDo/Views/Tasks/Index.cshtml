@@ -38,7 +38,7 @@
                                         <label>Data:</label>
                                     </div>
                                     <div class="col-12">
-                                        <input class="form-control input-sm" type="date" id="newTaskDateInput" required />
+                                        <input class="task-date form-control input-sm" type="date" id="newTaskDateInput" required />
                                     </div>
                                 </div>
 
@@ -46,7 +46,7 @@
                                 </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                                <button type="button" id="btnCreateNew" data-dismiss="modal" class="btn btn-primary">Dodaj zadanie</button>
+                                <button type="button" id="btnCreateNew" class="btn btn-primary">Dodaj zadanie</button>
                             </div>
                         </div>
                     </div>
@@ -55,25 +55,12 @@
                 <table id="Task_List" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>
-                                Id
-                            </th>
-                            <th>
-                                Treść
-                            </th>
-                            <th>
-                                Data
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                            <th>
-                                Edycja
-                            </th>
-                            <th>
-                                Usuwanie
-                            </th>
-
+                            <th>Id</th>
+                            <th>Treść</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Edycja</th>
+                            <th>Usuwanie</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -125,7 +112,7 @@
             <td><%=Id%></td>
             <td><%=Content%></td>
             <td><%=moment(Date).format('DD.MM.YYYY')%></td>
-            <td><input type="checkbox" id="task-<%=Id%>-checkbox" <% if(IsDone) { %> checked <% } %> disabled /></td>
+            <td><input class="form-control input-sm" type="checkbox" id="task-<%=Id%>-checkbox" <% if(IsDone) { %> checked <% } %> disabled /></td>
             <td class="text-center">
                 <button type="button" class="TaskEdit btn btn-primary" data-toggle="modal" data-target="#taskEditModal">Edytuj</button>
             </td>

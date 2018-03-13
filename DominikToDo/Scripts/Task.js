@@ -25,7 +25,7 @@
         },
         save: function () {
             var model = this;
-            
+
             $.ajax({
                 url: '/Tasks/Create',
                 type: 'POST',
@@ -34,6 +34,29 @@
                     model.set('Id', data.Id);
                 }
             });
+        },
+        validate: function (attributes) {
+            var errors = [];
+            if (!attributes.Content) {
+                errors.push({ name: 'Content', message: 'Wpisz treść zadania.' });
+            }
+            if (!attributes.Date) {
+                errors.push({ name: 'Date', message: 'Wybierz datę.' });
+            }
+            else {
+                var myDate = Date.parse(attributes.Date);
+                var myDateFormatted = moment(myDate).format('YYYYMMDD');
+
+                var now = new Date();
+                var nowFormatted = moment(now).format('YYYYMMDD');
+
+                if (myDateFormatted < nowFormatted)
+                {
+                    errors.push({ name: 'Date', message: 'Wybrana data nie może być datą z przeszłości.' });
+                }
+            }
+
+            return errors.length > 0 ? errors : false;
         }
     });
 
@@ -118,11 +141,19 @@
             "click #SaveChanges": "EditExistingTask"
         },
         AddNewTask: function () {
+
             console.log('Add Task....');
             this.counter++;
             var newTask = new Task({ Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
-            this.collection.add(newTask);
-            newTask.save();
+
+            if (!newTask.isValid()) {
+                alert("Validation Errors, please fix");
+                return; //Do not save
+            } else {
+                this.collection.add(newTask);
+                newTask.save();   //write the save logic here
+            }
+
         },
         EditExistingTask: function () {
             var model = this.collection.get($('#editTaskIdInput').val());

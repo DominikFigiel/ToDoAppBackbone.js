@@ -14,6 +14,7 @@
             $('#newTaskContentInput').val("");
 
         });
+
     });
 
 })
