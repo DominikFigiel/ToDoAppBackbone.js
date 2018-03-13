@@ -16,10 +16,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ToDo List", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Tasks (Backbone.js)", "Index", "Tasks")</li>
                     <li>@Html.ActionLink("Tasks", "Index", "Task")</li>
                     <li>@Html.ActionLink("Add new task", "Create", "Task")</li>
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
