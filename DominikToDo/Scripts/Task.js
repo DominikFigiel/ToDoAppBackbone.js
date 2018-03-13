@@ -56,6 +56,15 @@
                 }
             }
 
+            if (errors.length > 0)
+            {
+                $(".task-validation-error").empty();
+                $(".task-validation-error").removeClass('hidden');
+                for (var key in errors) {
+                    $(".task-validation-error").append("<p><strong>" + (parseInt(key) + 1) + ":</strong> " + errors[key].message + "</p>");
+                }
+            }
+
             return errors.length > 0 ? errors : false;
         }
     });
@@ -147,31 +156,53 @@
             var newTask = new Task({ Content: $('#newTaskContentInput').val(), Date: $('#newTaskDateInput').val(), IsDone: false });
 
             if (!newTask.isValid()) {
-                alert("Validation Errors, please fix");
+                alert("Pola nie zostały wypełnione prawidłowo.");
                 return; //Do not save
             } else {
                 this.collection.add(newTask);
                 newTask.save();   //write the save logic here
+
+                $('#taskModal').modal('toggle');
             }
 
         },
         EditExistingTask: function () {
             var model = this.collection.get($('#editTaskIdInput').val());
-            model.set('Content', $('#editTaskContentInput').val() );
-            model.set('Date', $('#editTaskDateInput').val());
-            if ($('#editTaskIsDoneInput')[0].checked == true)
-                model.set('IsDone', true);
-            else
-                model.set('IsDone', false);
 
-            $.ajax({
-                url: '/Tasks/Edit/' + model.toJSON().Id,
-                type: 'POST',
-                data: model.toJSON(),
-                success: function (data) {
-                    console.log(data);
-                }
-            });
+            var newTask = new Task();
+
+            newTask.set('Id', $('#editTaskIdInput').val() );
+            newTask.set('Content', $('#editTaskContentInput').val());
+            newTask.set('Date', $('#editTaskDateInput').val());
+
+            if ($('#editTaskIsDoneInput')[0].checked == true)
+                newTask.set('IsDone', true);
+            else
+                newTask.set('IsDone', false);
+
+            if (!newTask.isValid()) {
+                alert("Pola nie zostały wypełnione prawidłowo.");
+                return; //Do not save
+            } else {
+                var newTaskJSON = newTask.toJSON();
+
+                model.set('Content', newTaskJSON.Content);
+                model.set('Date', newTaskJSON.Date);
+                model.set('IsDone', newTaskJSON.IsDone);
+
+                $.ajax({
+                    url: '/Tasks/Edit/' + newTask.toJSON().Id,
+                    type: 'POST',
+                    data: newTask.toJSON(),
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+
+                $(".task-validation-error").empty();
+                $('#taskEditModal').modal('toggle');
+
+            }
 
         },
         AppendTask: function (task) {
