@@ -77,8 +77,8 @@
             this.bind("reset", function (model, options) {
                 console.log("Inside event");
                 console.log(model);
-
-            })
+            });
+            this.fetch();
         }
     });
 
@@ -147,7 +147,8 @@
         counter: 20  ,
         events: {
             "click #btnCreateNew": "AddNewTask",
-            "click #SaveChanges": "EditExistingTask"
+            "click #SaveChanges": "EditExistingTask",
+            "input #searchInput": "Search"
         },
         AddNewTask: function () {
 
@@ -161,6 +162,8 @@
             } else {
                 this.collection.add(newTask);
                 newTask.save();   //write the save logic here
+                this.unrender();
+                this.render();
 
                 $('#taskModal').modal('toggle');
             }
@@ -215,20 +218,25 @@
                 this.collection.each(this.AppendTask, this);
             }
             $("input:button", "#Task_List").button();
+        },
+        unrender: function () {
+            $(this.el).find('table td').remove();
+        },
+        Search: function () {
+            var search = $('#searchInput').val().toLowerCase();
+            var lista = this.collection.filter(function (model) {
+                var content = model.get('Content').toLowerCase();
+                if (content.indexOf(search) > -1) {
+                    return model;
+                }
+            });
+            this.unrender();
+            this.collection = new TaskCollection(lista);
+            this.render();
         }
     });
 
     var tasks = new TaskCollection();
-
-    tasks.fetch({
-        success: function (response, xhr) {
-            console.log("Inside success");
-            console.log(response);
-        },
-        error: function (errorResponse) {
-            console.log(errorResponse)
-        }
-    });
 
 
     var view = new AppView({ collection: tasks });

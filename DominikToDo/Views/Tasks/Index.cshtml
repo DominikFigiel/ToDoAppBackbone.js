@@ -13,7 +13,18 @@
             <div class="container">
                 <h2>Task List </h2>
                 <p>Using Backbone</p>
-                <p><button id="btn-show-modal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal">Nowe zadanie</button></p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p><button id="btn-show-modal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#taskModal">Nowe zadanie</button></p>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="input-group-btn">
+                            <input id="searchInput" name="search" type="text" class="form-control pull-right">
+                        </span>
+                    </div>
+                </div>
+
+
                 <!-- Modal (Add) - Start -->
                 <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -42,8 +53,10 @@
                                     </div>
                                 </div>
 
-                                    <!--<input type="date" id="newTaskDateInput" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" required />-->
-                                </div>
+                                <!--<input type="date" id="newTaskDateInput" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" required />-->
+                            </div>
+
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
                                 <button type="button" id="btnCreateNew" class="btn btn-primary">Dodaj zadanie</button>
@@ -96,8 +109,8 @@
                                     <input class="form-control input-sm" type="checkbox" id="editTaskIsDoneInput" />
                                 </div>
                                 <!--
-                                <input type="date" id="newTaskDateInput" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" required />
-                                -->
+                    <input type="date" id="newTaskDateInput" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" required />
+                    -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
@@ -105,7 +118,7 @@
                                 <p>
                                     <div class="task-validation-error alert alert-danger fade in hidden"></div>
                                 </p>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -113,7 +126,7 @@
                 <!-- Modal (Edit) - End -->
             </div>
 
-        </div>
+            </div>
 
         <script id='Task-Template' type='text/template'>
             <td><%=Id%></td>
