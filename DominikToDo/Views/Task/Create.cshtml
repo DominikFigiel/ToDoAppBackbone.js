@@ -35,7 +35,6 @@
                         @type = "date",
                         @Value = @DateTime.Now.ToString("yyyy-MM-dd"),
                         @min = @DateTime.Now.ToString("yyyy-MM-dd")
-
                     }
                 })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
